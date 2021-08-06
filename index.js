@@ -1,12 +1,12 @@
 /*
-    TODO
-        - Select all the drums elements & add event listener
-        - Add animation when the buttons are clicked
-        - Play music
+    Global State
 */
-
 var audio_volume = 0.6;
 
+
+/*
+    Common Functions
+*/
 const animate = (key) => {
     const currentKey = document.querySelector(`.${key}`);
     currentKey.classList.add('pressed');
@@ -43,14 +43,11 @@ const makeSound = (key) => {
     }
 }
 
-const handleDrumClick = (event) => {
-    let innerHTML = event.target.innerHTML;
-    makeSound(innerHTML);
-    animate(innerHTML);
-};
 
+/*
+    Drum Buttons Event
+*/
 var drums = document.querySelectorAll('.drum');
-
 for (let i = 0; i < drums.length; i++) {
     drums[i].addEventListener("click", handleDrumClick);
 }
@@ -61,23 +58,24 @@ document.addEventListener("keypress", (event) => {
     animate(triggeredKey);
 })
 
+const handleDrumClick = (event) => {
+    let innerHTML = event.target.innerHTML;
+    makeSound(innerHTML);
+    animate(innerHTML);
+};
 
-var autoMusicId;
-var isAutoMusicON = false;
-const startAutoMusic = () => {
-    const letters = ["w", "a", "s", "d", "j", "k", "l"];
-    autoMusicId = setInterval(() => {
-        const currentKey = letters[Math.floor(Math.random() * letters.length)];
-        makeSound(currentKey);
-        animate(currentKey);
-    }, 300);
-}
 
+/*
+    Volume Slider events
+*/
 const slider = document.getElementById('volume__slider');
 slider.oninput = (event) => {
     audio_volume = event.target.value / 100;
 }
 
+/*
+    Auto Music Button
+*/
 const autoMusic = document.getElementById("util__button-auto");
 autoMusic.addEventListener("click", () => {
     if (isAutoMusicON) {
@@ -90,3 +88,14 @@ autoMusic.addEventListener("click", () => {
         autoMusic.innerText = "Stop Auto Music";
     }
 });
+
+var autoMusicId;
+var isAutoMusicON = false;
+const startAutoMusic = () => {
+    const letters = ["w", "a", "s", "d", "j", "k", "l"];
+    autoMusicId = setInterval(() => {
+        const currentKey = letters[Math.floor(Math.random() * letters.length)];
+        makeSound(currentKey);
+        animate(currentKey);
+    }, 300);
+}
