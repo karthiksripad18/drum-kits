@@ -5,6 +5,8 @@
         - Play music
 */
 
+var audio_volume = 0.6;
+
 const animate = (key) => {
     const currentKey = document.querySelector(`.${key}`);
     currentKey.classList.add('pressed');
@@ -16,6 +18,7 @@ const animate = (key) => {
 
 const playMusic = (path) => {
     const audio = new Audio(path);
+    audio.volume = audio_volume;
     audio.play();
 }
 
@@ -57,3 +60,33 @@ document.addEventListener("keypress", (event) => {
     makeSound(triggeredKey);
     animate(triggeredKey);
 })
+
+
+var autoMusicId;
+var isAutoMusicON = false;
+const startAutoMusic = () => {
+    const letters = ["w", "a", "s", "d", "j", "k", "l"];
+    autoMusicId = setInterval(() => {
+        const currentKey = letters[Math.floor(Math.random() * letters.length)];
+        makeSound(currentKey);
+        animate(currentKey);
+    }, 300);
+}
+
+const slider = document.getElementById('volume__slider');
+slider.oninput = (event) => {
+    audio_volume = event.target.value / 100;
+}
+
+const autoMusic = document.getElementById("util__button-auto");
+autoMusic.addEventListener("click", () => {
+    if (isAutoMusicON) {
+        clearInterval(autoMusicId);
+        isAutoMusicON = false;
+        autoMusic.innerText = "Start Auto Music";
+    } else {
+        isAutoMusicON = true;
+        startAutoMusic();
+        autoMusic.innerText = "Stop Auto Music";
+    }
+});
