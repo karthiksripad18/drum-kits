@@ -47,6 +47,11 @@ const makeSound = (key) => {
 /*
     Drum Buttons Event
 */
+const handleDrumClick = (event) => {
+    let innerHTML = event.target.innerHTML;
+    makeSound(innerHTML);
+    animate(innerHTML);
+};
 var drums = document.querySelectorAll('.drum');
 for (let i = 0; i < drums.length; i++) {
     drums[i].addEventListener("click", handleDrumClick);
@@ -57,12 +62,6 @@ document.addEventListener("keypress", (event) => {
     makeSound(triggeredKey);
     animate(triggeredKey);
 })
-
-const handleDrumClick = (event) => {
-    let innerHTML = event.target.innerHTML;
-    makeSound(innerHTML);
-    animate(innerHTML);
-};
 
 
 /*
